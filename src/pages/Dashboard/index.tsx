@@ -2,7 +2,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import kalphoto from "@/assets/img/kalprofile.png";
-import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import {
   ResizableHandle,
@@ -11,7 +10,7 @@ import {
 } from "@/components/ui/resizable";
 
 interface DashboardPages {
-  page?: ReactNode;
+  page?: React.ReactNode;
 }
 
 const Dashboard = ({ page }: DashboardPages) => {
@@ -31,8 +30,12 @@ const Dashboard = ({ page }: DashboardPages) => {
               >
                 <Link to="/notes">Notes</Link>
               </Button>
-              <Button variant="ghost" className="w-full py-6 mt-5 text-md">
-                Todo List
+              <Button
+                variant="ghost"
+                className="w-full py-6 mt-5 text-md"
+                asChild
+              >
+                <Link to="/todo">Todo List</Link>
               </Button>
               <Button variant="ghost" className="w-full py-6 mt-5 text-md">
                 Planning Day
