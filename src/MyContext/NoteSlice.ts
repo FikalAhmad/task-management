@@ -25,9 +25,13 @@ export const NoteSlice = createSlice({
         existingNote.createdAt = createdAt;
       }
     },
+    removeNote: (state, action: PayloadAction<string[]>) => {
+      const ids = action.payload;
+      return state.filter((note) => !ids.includes(note.id));
+    },
   },
 });
 
-export const { addNote, updateNote } = NoteSlice.actions;
+export const { addNote, updateNote, removeNote } = NoteSlice.actions;
 
 export default NoteSlice.reducer;

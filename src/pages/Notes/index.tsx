@@ -8,10 +8,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { ResizableHandle, ResizablePanel } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useSelector } from "react-redux";
-import { RootState } from "@/MyContext/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/MyContext/store";
 import { useState } from "react";
 import RenderPanelNote from "./RenderPanelNote";
+import { Checkbox } from "@/components/ui/checkbox";
+import { removeNote } from "@/MyContext/NoteSlice";
 
 type NoteMap = {
   id: string;
@@ -23,9 +25,13 @@ type NoteMap = {
 const NotesList = () => {
   const [selectedNote, setSelectedNote] = useState({});
   const [status, setStatus] = useState("");
+  const [selected, setSelected] = useState<string[]>([]);
+
   const notes = useSelector((state: RootState) => state.notes);
+  const dispatch = useDispatch<AppDispatch>();
 
   //TODO: in card case, i want to change event onclick to view note from title to all element card
+  //TODO: search functional for searching the note and add the history after you search it
 
   return (
     <>
@@ -47,7 +53,12 @@ const NotesList = () => {
               >
                 Add Note
               </Button>
-              <Button className="w-full">Remove Note</Button>
+              <Button
+                className="w-full"
+                onClick={() => dispatch(removeNote(selected))}
+              >
+                Remove Note
+              </Button>
             </div>
             <div>
               <Input type="text" placeholder="Search..." />
@@ -71,12 +82,22 @@ const NotesList = () => {
                         >
                           {item.title}
                         </CardTitle>
-                        <CardDescription className="h-16 truncate">
+                        <CardDescription className="h-16 text-pretty truncate">
                           {item.content}
                         </CardDescription>
-                        <p className="text-xs font-sans text-slate-500">
-                          Modified: {item.createdAt}
-                        </p>
+                        <div className="flex justify-between">
+                          <p className="text-xs font-sans text-slate-500">
+                            Modified: {item.createdAt}
+                          </p>
+                          <Checkbox
+                            value={item.id}
+                            onCheckedChange={(checked) =>
+                              checked
+                                ? setSelected((prev) => [...prev, item.id])
+                                : ""
+                            }
+                          />
+                        </div>
                       </CardHeader>
                     </Card>
                   );
