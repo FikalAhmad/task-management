@@ -12,7 +12,7 @@ const ViewNote = ({ data }: Note) => {
   const { title, content, createdAt } = data;
   return (
     <div>
-      <h1 className="text-2xl font-semibold">{title}</h1>
+      <h1 className="text-4xl font-bold">{title}</h1>
       <div className="text-sm font-semibold text-gray-400 mt-2 mb-5">
         Modified: {createdAt}
       </div>

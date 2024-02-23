@@ -26,12 +26,18 @@ const NotesList = () => {
   const [selectedNote, setSelectedNote] = useState({});
   const [status, setStatus] = useState("");
   const [selected, setSelected] = useState<string[]>([]);
+  const [searchNote, setSearchNote] = useState<string>("");
 
   const notes = useSelector((state: RootState) => state.notes);
   const dispatch = useDispatch<AppDispatch>();
 
-  //TODO: in card case, i want to change event onclick to view note from title to all element card
-  //TODO: search functional for searching the note and add the history after you search it
+  const filteredNote = notes.filter((note) =>
+    note.title.toLowerCase().includes(searchNote.toLowerCase())
+  );
+
+  //TODO: in card case, i want to change event onclick to view note from title to all element card.
+  //TODO: edit feature. i want to add edit feature at view note with the icon button or just button.
+  //TODO:
 
   return (
     <>
@@ -61,7 +67,14 @@ const NotesList = () => {
               </Button>
             </div>
             <div>
-              <Input type="text" placeholder="Search..." />
+              <Input
+                type="text"
+                placeholder="Search..."
+                value={searchNote}
+                onChange={(e) => {
+                  setSearchNote(e.target.value);
+                }}
+              />
             </div>
           </div>
           <ScrollArea className="h-[500px] mt-5">
@@ -69,7 +82,7 @@ const NotesList = () => {
               {notes.length <= 0 ? (
                 <p>tidak ada note</p>
               ) : (
-                notes.map((item: NoteMap) => {
+                filteredNote.map((item: NoteMap) => {
                   return (
                     <Card key={item.id} className="mb-5">
                       <CardHeader>
